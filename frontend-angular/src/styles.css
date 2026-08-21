@@ -34,10 +34,35 @@ h1,h2,h3,h4,.font-display { font-family: 'Poppins', sans-serif; }
   }
 }
 
-/* Mobile helpers */
-html, body { overflow-x: hidden; }
-.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+/* Mobile helpers + overscroll fix */
+html {
+  overscroll-behavior: none;
+  overscroll-behavior-y: none;
+}
+body {
+  overflow-x: hidden;
+  overscroll-behavior: none;
+  overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+}
 .scrollbar-hide::-webkit-scrollbar { display: none; }
+.overscroll-contain {
+  overscroll-behavior: contain;
+  overscroll-behavior-y: contain;
+  overscroll-behavior-x: contain;
+}
+.overflow-auto, .overflow-x-auto, .overflow-y-auto, .overflow-y-scroll, .overflow-x-scroll {
+  overscroll-behavior: contain;
+}
 
 /* Bootstrap overrides */
 .btn { border-radius: 0.75rem; }

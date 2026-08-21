@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type NavItem = {
   href: string;
@@ -28,6 +28,20 @@ const secondaryItems: NavItem[] = [
 export default function Sidebar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overscrollBehavior = "none";
+    } else {
+      document.body.style.overflow = "";
+      document.documentElement.style.overscrollBehavior = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overscrollBehavior = "";
+    };
+  }, [open]);
 
   return (
     <>
@@ -67,7 +81,7 @@ export default function Sidebar() {
           </span>
         </div>
 
-        <div className="flex-1 overflow-y-auto sidebar-scroll px-3 py-4">
+        <div className="flex-1 overflow-y-auto sidebar-scroll overscroll-contain px-3 py-4" style={{ overscrollBehavior: 'contain' }}>
           <div className="mb-2 px-2 text-[11px] font-semibold uppercase tracking-widest opacity-50">
             Operacional
           </div>

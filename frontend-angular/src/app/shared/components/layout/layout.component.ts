@@ -9,7 +9,7 @@ import { FooterComponent } from '../footer/footer.component';
   imports: [RouterOutlet, HeaderComponent, FooterComponent],
   template: `
     <app-header />
-    <main class="min-h-[60vh]"><router-outlet /></main>
+    <main class="min-h-[60vh] overscroll-contain" style="overscroll-behavior: contain;"><router-outlet /></main>
     <app-footer />
   `
 })

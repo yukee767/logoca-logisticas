@@ -31,9 +31,9 @@ export default function RootLayout({
           <Sidebar />
 
           {/* Main content */}
-          <div className="flex flex-1 flex-col lg:ml-[260px]">
+          <div className="flex flex-1 flex-col lg:ml-[260px] overscroll-contain" style={{ overscrollBehavior: 'contain' }}>
             <Header />
-            <main className="flex-1 p-4 md:p-6 lg:p-8">{children}</main>
+            <main className="flex-1 p-4 md:p-6 lg:p-8 overscroll-contain" style={{ overscrollBehavior: 'contain' }}>{children}</main>
             <footer className="border-t bg-white px-6 py-3 text-center text-xs text-slate-500">
               © {new Date().getFullYear()} LogoCá Logísticas • Sistema Integrado NestJS + FastAPI •
               v1.0.0

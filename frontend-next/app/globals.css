@@ -13,11 +13,34 @@
   --logoca-bg: #f4f7fb;
 }
 
-html,
+html {
+  overscroll-behavior: none;
+  overscroll-behavior-y: none;
+  height: 100%;
+}
 body {
   height: 100%;
   background: var(--logoca-bg);
   font-family: "Inter", system-ui, -apple-system, sans-serif;
+  overscroll-behavior: none;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  overflow-x: hidden;
+}
+.overscroll-contain {
+  overscroll-behavior: contain;
+  overscroll-behavior-y: contain;
+  overscroll-behavior-x: contain;
+}
+.scrollbar-hide {
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+}
+.overflow-auto, .overflow-x-auto, .overflow-y-auto, .overflow-y-scroll, .overflow-x-scroll {
+  overscroll-behavior: contain;
 }
 
 /* Sidebar custom scrollbar */

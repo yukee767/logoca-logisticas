@@ -51,19 +51,19 @@ import { AuthService } from '../../../core/services/auth.service';
             <span *ngIf="(cart.count$ | async) as c" class="absolute -top-1 -right-1 bg-[#ff6b00] text-white text-[11px] font-bold min-w-[20px] h-5 px-1 rounded-full flex items-center justify-center">{{ c }}</span>
           </a>
           <a routerLink="/catalogo" class="hidden sm:inline-flex btn-primary-logoca !py-2.5 !px-5 text-sm">Comprar agora</a>
-          <button class="lg:hidden inline-flex w-11 h-11 items-center justify-center rounded-xl border border-slate-200" (click)="open = !open">
+          <button class="lg:hidden inline-flex w-11 h-11 items-center justify-center rounded-xl border border-slate-200" (click)="toggle()">
             <i class="bi" [ngClass]="open ? 'bi-x-lg' : 'bi-list'" style="font-size:1.4rem"></i>
           </button>
         </div>
       </div>
 
       <!-- Mobile menu -->
-      <div *ngIf="open" class="lg:hidden pb-4 border-t border-slate-100 pt-3 flex flex-col gap-1">
-        <a (click)="open=false" routerLink="/" class="px-3 py-2.5 rounded-lg hover:bg-slate-100 font-medium">Início</a>
-        <a (click)="open=false" routerLink="/catalogo" class="px-3 py-2.5 rounded-lg hover:bg-slate-100 font-medium">Catálogo</a>
-        <a (click)="open=false" routerLink="/para-empresas" class="px-3 py-2.5 rounded-lg hover:bg-slate-100 font-medium">Para Empresas</a>
-        <a (click)="open=false" routerLink="/sobre" class="px-3 py-2.5 rounded-lg hover:bg-slate-100 font-medium">Sobre</a>
-        <a (click)="open=false" routerLink="/contato" class="px-3 py-2.5 rounded-lg bg-[#0f2140] text-white text-center font-semibold mt-2">Fale conosco</a>
+      <div *ngIf="open" class="lg:hidden pb-4 border-t border-slate-100 pt-3 flex flex-col gap-1 overscroll-contain max-h-[70vh] overflow-y-auto" style="overscroll-behavior: contain; -webkit-overflow-scrolling: touch;">
+        <a (click)="close()" routerLink="/" class="px-3 py-2.5 rounded-lg hover:bg-slate-100 font-medium">Início</a>
+        <a (click)="close()" routerLink="/catalogo" class="px-3 py-2.5 rounded-lg hover:bg-slate-100 font-medium">Catálogo</a>
+        <a (click)="close()" routerLink="/para-empresas" class="px-3 py-2.5 rounded-lg hover:bg-slate-100 font-medium">Para Empresas</a>
+        <a (click)="close()" routerLink="/sobre" class="px-3 py-2.5 rounded-lg hover:bg-slate-100 font-medium">Sobre</a>
+        <a (click)="close()" routerLink="/contato" class="px-3 py-2.5 rounded-lg bg-[#0f2140] text-white text-center font-semibold mt-2">Fale conosco</a>
       </div>
     </div>
   </header>
@@ -72,4 +72,23 @@ import { AuthService } from '../../../core/services/auth.service';
 export class HeaderComponent {
   open = false;
   constructor(public cart: CartService, public auth: AuthService) {}
+  toggle() {
+    this.open = !this.open;
+    this.lockBody(this.open);
+  }
+  close() {
+    this.open = false;
+    this.lockBody(false);
+  }
+  private lockBody(lock: boolean) {
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = lock ? 'hidden' : '';
+      document.documentElement.style.overscrollBehavior = lock ? 'none' : '';
+      if (lock) {
+        document.body.style.touchAction = 'none';
+      } else {
+        document.body.style.touchAction = '';
+      }
+    }
+  }
 }
