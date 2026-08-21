@@ -34,7 +34,7 @@ export default function Sidebar() {
       {/* Mobile toggle */}
       <button
         onClick={() => setOpen(!open)}
-        className="fixed left-4 top-4 z-50 rounded-lg bg-[#0d3b66] p-2 text-white shadow-lg lg:hidden"
+        className="fixed left-3 top-3 z-50 flex h-9 w-9 items-center justify-center rounded-xl bg-[#0d3b66] text-white shadow-lg lg:hidden hover:bg-[#0a2f52] transition"
         aria-label="Toggle menu"
       >
         <i className={`bi ${open ? "bi-x-lg" : "bi-list"} text-xl`} />
@@ -49,7 +49,7 @@ export default function Sidebar() {
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-40 flex w-[260px] flex-col bg-[#0d3b66] text-white transition-transform duration-300 lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-40 flex w-[85vw] max-w-[300px] sm:w-[260px] flex-col bg-[#0d3b66] text-white transition-transform duration-300 ease-out lg:translate-x-0 ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -164,11 +164,11 @@ export default function Sidebar() {
             </button>
           </div>
           <div className="mt-3 flex gap-2 text-[10px]">
-            <span className="rounded bg-emerald-500/20 px-2 py-1 text-emerald-300 border border-emerald-500/30">
-              ● NestJS ON
+            <span className="rounded bg-emerald-500/20 px-2 py-1 text-emerald-300 border border-emerald-500/30 inline-flex items-center gap-1">
+              <i className="bi bi-circle-fill text-[6px]"></i> NestJS ON
             </span>
-            <span className="rounded bg-sky-500/20 px-2 py-1 text-sky-300 border border-sky-500/30">
-              ● FastAPI ON
+            <span className="rounded bg-sky-500/20 px-2 py-1 text-sky-300 border border-sky-500/30 inline-flex items-center gap-1">
+              <i className="bi bi-circle-fill text-[6px]"></i> FastAPI ON
             </span>
           </div>
         </div>

@@ -44,27 +44,27 @@ export default function DashboardPage() {
   const pedidosHoje = 128;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
-        <div>
-          <h2 className="text-2xl font-black tracking-tight">Visão Geral</h2>
-          <p className="text-sm text-slate-500">
+      <div className="flex flex-col gap-3 sm:gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div className="min-w-0">
+          <h2 className="text-xl sm:text-2xl font-black tracking-tight">Visão Geral</h2>
+          <p className="text-xs sm:text-sm text-slate-500">
             KPIs operacionais • Atualizado há 2 min • Integração NestJS + FastAPI
           </p>
         </div>
-        <div className="flex gap-2">
-          <button className="rounded-full border bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50">
-            <i className="bi bi-download mr-1" /> Exportar
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+          <button className="rounded-full border bg-white px-4 py-2.5 sm:py-2 text-sm font-semibold hover:bg-slate-50 w-full sm:w-auto justify-center inline-flex items-center gap-1">
+            <i className="bi bi-download" /> Exportar
           </button>
-          <button className="rounded-full bg-[#0d3b66] px-4 py-2 text-sm font-semibold text-white">
-            <i className="bi bi-arrow-clockwise mr-1" /> Atualizar
+          <button className="rounded-full bg-[#0d3b66] px-4 py-2.5 sm:py-2 text-sm font-semibold text-white w-full sm:w-auto justify-center inline-flex items-center gap-1">
+            <i className="bi bi-arrow-clockwise" /> Atualizar
           </button>
         </div>
       </div>
 
       {/* KPIs */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-3 sm:gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <KpiCard
           title="Pedidos (hoje)"
           value={pedidosHoje}
@@ -100,7 +100,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Gráficos linha + pizza */}
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 sm:gap-4 xl:grid-cols-3">
         <ChartCard
           title="Faturamento • 14 dias"
           subtitle="Linha + média Brahma vs Pepsi"
@@ -111,7 +111,7 @@ export default function DashboardPage() {
             </span>
           }
         >
-          <div className="h-[280px]">
+          <div className="h-[240px] sm:h-[280px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={sales}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
@@ -133,7 +133,7 @@ export default function DashboardPage() {
         </ChartCard>
 
         <ChartCard title="Mix por Marca" subtitle="Pizza • Brahma vs Pepsi">
-          <div className="h-[280px]">
+          <div className="h-[240px] sm:h-[280px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -162,9 +162,9 @@ export default function DashboardPage() {
       </div>
 
       {/* Barra + ocupação */}
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 sm:gap-4 xl:grid-cols-3">
         <ChartCard title="Performance por Rota" subtitle="Entregas vs Tempo médio (h)" className="xl:col-span-2">
-          <div className="h-[260px]">
+          <div className="h-[220px] sm:h-[260px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={rotasPerformance}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
@@ -181,7 +181,7 @@ export default function DashboardPage() {
         </ChartCard>
 
         <ChartCard title="Ocupação Galpão" subtitle="Donut • 6.000 m³ total">
-          <div className="h-[260px] flex flex-col">
+          <div className="h-[220px] sm:h-[260px] flex flex-col">
             <div className="flex-1">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -198,23 +198,23 @@ export default function DashboardPage() {
                 <div className="text-xs font-bold text-amber-800">Alerta: 78% ocupado</div>
                 <div className="text-xs text-amber-700">Recomendado: liberar 500 m³</div>
               </div>
-              <span className="text-xl">⚠️</span>
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-amber-100 text-amber-600"><i className="bi bi-exclamation-triangle-fill text-lg"></i></span>
             </div>
           </div>
         </ChartCard>
       </div>
 
       {/* Tabela pedidos recentes + mapa */}
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
-        <div className="xl:col-span-2 rounded-2xl border bg-white p-5 shadow-sm">
-          <div className="flex items-center justify-between">
-            <h3 className="font-bold">Pedidos Recentes</h3>
-            <a href="/dashboard/pedidos" className="text-xs font-semibold text-[#0d3b66] hover:underline">
+      <div className="grid grid-cols-1 gap-3 sm:gap-4 xl:grid-cols-3">
+        <div className="xl:col-span-2 rounded-2xl border bg-white p-4 sm:p-5 shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <h3 className="font-bold text-sm sm:text-base">Pedidos Recentes</h3>
+            <a href="/dashboard/pedidos" className="text-xs font-semibold text-[#0d3b66] hover:underline self-start sm:self-auto">
               Ver todos →
             </a>
           </div>
-          <div className="mt-4 overflow-x-auto">
-            <table className="w-full text-sm">
+          <div className="mt-4 overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+            <table className="w-full text-sm min-w-[520px]">
               <thead className="text-xs uppercase text-slate-500">
                 <tr className="border-b">
                   <th className="py-2 text-left">Pedido</th>
@@ -253,11 +253,11 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
-          <h3 className="font-bold">Frota em Tempo Real</h3>
+        <div className="rounded-2xl border bg-white p-4 sm:p-5 shadow-sm">
+          <h3 className="font-bold text-sm sm:text-base">Frota em Tempo Real</h3>
           <p className="text-xs text-slate-500">Mapa placeholder com lat/lng • WebSocket FastAPI</p>
           <div className="mt-4">
-            <MapView height="260px" />
+            <MapView height="220px" />
           </div>
         </div>
       </div>

@@ -27,7 +27,7 @@ h1,h2,h3,h4,.font-display { font-family: 'Poppins', sans-serif; }
     @apply border-2 border-[#0f2140] text-[#0f2140] hover:bg-[#0f2140] hover:text-white font-semibold px-6 py-3 rounded-xl transition-all duration-200 inline-flex items-center justify-center gap-2;
   }
   .card-logoca {
-    @apply bg-white rounded-2xl shadow-[0_4px_24px_rgba(15,33,64,0.08)] border border-slate-100 p-6 hover:shadow-[0_12px_32px_rgba(15,33,64,0.14)] transition-shadow duration-300;
+    @apply bg-white rounded-2xl shadow-[0_4px_24px_rgba(15,33,64,0.08)] border border-slate-100 p-6 transition-all duration-300 ease-out hover:shadow-[0_16px_40px_rgba(15,33,64,0.16)] hover:-translate-y-1.5 hover:border-[#ff6b00]/20 will-change-transform;
   }
   .badge-logoca {
     @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-orange-100 text-[#ff6b00] border border-orange-200;

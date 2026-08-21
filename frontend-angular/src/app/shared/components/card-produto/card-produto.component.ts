@@ -9,14 +9,14 @@ import { CartService } from '../../../core/services/cart.service';
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `
-  <div class="card-logoca flex flex-col h-full group overflow-hidden !p-0">
+  <div class="card-logoca flex flex-col h-full group overflow-hidden !p-0 hover:shadow-xl">
     <a [routerLink]="['/produto', produto.id]" class="relative block overflow-hidden">
-      <img [src]="produto.imagem" [alt]="produto.nome" class="w-full h-48 object-cover group-hover:scale-105 transition duration-500">
-      <span *ngIf="produto.marca" class="absolute top-3 left-3 bg-white/95 backdrop-blur px-2.5 py-1 rounded-full text-[11px] font-black tracking-wider"
+      <img [src]="produto.imagem" [alt]="produto.nome" class="w-full h-44 sm:h-48 object-cover group-hover:scale-105 transition duration-500">
+      <span *ngIf="produto.marca" class="absolute top-3 left-3 bg-white/95 backdrop-blur px-2.5 py-1 rounded-full text-[11px] font-black tracking-wider shadow-sm"
             [ngClass]="produto.marca==='Brahma' ? 'text-[#b91c1c]' : produto.marca==='Pepsi' ? 'text-[#004B93]' : 'text-[#0f2140]'">
         {{produto.marca | uppercase}}
       </span>
-      <span *ngIf="produto.estoque < 30" class="absolute top-3 right-3 bg-amber-500 text-white text-[10px] font-bold px-2 py-1 rounded-full">ESTOQUE BAIXO</span>
+      <span *ngIf="produto.estoque < 30" class="absolute top-3 right-3 bg-amber-500 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">ESTOQUE BAIXO</span>
     </a>
     <div class="p-4 flex flex-col flex-1">
       <div class="flex items-center gap-2 text-[11px] text-slate-500 mb-1">
@@ -47,9 +47,9 @@ import { CartService } from '../../../core/services/cart.service';
         <div class="text-[11px] text-slate-400 mt-1">por {{produto.unidade}} • estoque: {{produto.estoque}}</div>
       </div>
 
-      <div class="mt-3 flex gap-2">
-        <a [routerLink]="['/produto', produto.id]" class="flex-1 btn-outline-logoca !py-2.5 text-sm">Ver detalhes</a>
-        <button (click)="add()" class="flex-1 btn-primary-logoca !py-2.5 text-sm"><i class="bi bi-bag-plus"></i> Add</button>
+      <div class="mt-3 flex flex-col sm:flex-row gap-2">
+        <a [routerLink]="['/produto', produto.id]" class="flex-1 btn-outline-logoca !py-2.5 text-sm justify-center">Ver detalhes</a>
+        <button (click)="add()" class="flex-1 btn-primary-logoca !py-2.5 text-sm justify-center"><i class="bi bi-bag-plus"></i> Add</button>
       </div>
     </div>
   </div>

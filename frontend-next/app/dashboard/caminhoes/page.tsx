@@ -40,10 +40,10 @@ export default function CaminhoesPage() {
 
       {/* KPIs Frota */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <div className="rounded-xl border bg-white p-4">
-          <div className="text-xs uppercase tracking-wide text-slate-500">Frota Total</div>
-          <div className="text-2xl font-black">12</div>
-          <div className="text-xs text-emerald-600 font-semibold">● 11 operacionais</div>
+        <div className="rounded-xl border bg-white p-3 sm:p-4">
+          <div className="text-[11px] sm:text-xs uppercase tracking-wide text-slate-500">Frota Total</div>
+          <div className="text-xl sm:text-2xl font-black">12</div>
+          <div className="text-xs text-emerald-600 font-semibold inline-flex items-center gap-1"><i className="bi bi-circle-fill text-[6px]"></i> 11 operacionais</div>
         </div>
         <div className="rounded-xl border bg-white p-4">
           <div className="text-xs uppercase tracking-wide text-slate-500">Em Rota</div>
@@ -100,8 +100,8 @@ export default function CaminhoesPage() {
       <div className="rounded-2xl border bg-white p-4 shadow-sm">
         <div className="flex items-center justify-between">
           <h3 className="font-bold">Localização em Tempo Real (GPS)</h3>
-          <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700 border border-emerald-200">
-            ● Live WebSocket • 3 veículos visíveis
+          <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700 border border-emerald-200 inline-flex items-center gap-1">
+            <i className="bi bi-circle-fill text-[6px] animate-pulse"></i> Live WebSocket • 3 veículos visíveis
           </span>
         </div>
         <div className="mt-3">

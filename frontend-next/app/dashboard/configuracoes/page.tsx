@@ -266,7 +266,7 @@ export default function ConfiguracoesPage() {
                       <td className="px-4 py-3 font-semibold">{u.nome}</td>
                       <td className="px-4 py-3 font-mono text-xs">{u.email}</td>
                       <td className="px-4 py-3"><span className="rounded-full bg-slate-100 px-2 py-1 text-xs font-bold">{u.role}</span></td>
-                      <td className="px-4 py-3 text-center">{u.ativo ? "✅" : "❌"}</td>
+                      <td className="px-4 py-3 text-center">{u.ativo ? <i className="bi bi-check-circle-fill text-emerald-500 text-lg"></i> : <i className="bi bi-x-circle-fill text-red-500 text-lg"></i>}</td>
                       <td className="px-4 py-3 text-right"><button onClick={() => { setConfig({ ...config, usuarios: config.usuarios.map((x: any) => x.id===u.id ? { ...x, ativo: !x.ativo } : x)}); save(`Usuário ${u.nome} ${!u.ativo ? "ativado" : "desativado"}`); }} className="rounded-full border px-3 py-1 text-xs">{u.ativo ? "Desativar" : "Ativar"}</button></td>
                     </tr>
                   ))}
