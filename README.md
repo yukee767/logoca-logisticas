@@ -1,9 +1,10 @@
 # LogoCá Logísticas
 
 Plataforma de logística e distribuição para bebidas (Brahma, Pepsi e parceiros) com gestão de estoque, frota, rotas, pedidos B2B/CONSUMER e rastreamento GPS em tempo real.
+ 
+> **Contato:** [logocalogisticas@contato.com](mailto:logocalogisticas@contato.com) (FICCIONAL)
 
-> **Contato:** [logocalogisticas@contato.com](mailto:logocalogisticas@contato.com)
-
+LEMBRETE: O SITE É APENAS PARA PORTIFÓLIO, NÃO CONDIZ COM NENHUM CNPJ REGISTRADO NO BRASIL. QUALQUER SEMELHANÇA É MERA COINCIDÊNCIA.
 ---
 
 ## Índice
