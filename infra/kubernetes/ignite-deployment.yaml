@@ -1,0 +1,99 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ignite
+  namespace: logoca
+  labels:
+    app: ignite
+spec:
+  ports:
+    - port: 10800
+      targetPort: 10800
+      name: thin-client
+    - port: 11211
+      targetPort: 11211
+      name: rest
+    - port: 47100
+      targetPort: 47100
+      name: communication
+    - port: 47500
+      targetPort: 47500
+      name: discovery
+    - port: 8080
+      targetPort: 8080
+      name: http
+  selector:
+    app: ignite
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ignite
+  namespace: logoca
+  labels:
+    app: ignite
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ignite
+  template:
+    metadata:
+      labels:
+        app: ignite
+    spec:
+      containers:
+        - name: ignite
+          image: apacheignite/ignite:2.15.0
+          ports:
+            - containerPort: 10800
+            - containerPort: 11211
+            - containerPort: 47100
+            - containerPort: 47500
+            - containerPort: 8080
+          env:
+            - name: OPTION_LIBS
+              value: "ignite-kubernetes,ignite-rest-http"
+            - name: CONFIG_URI
+              value: "file:///opt/ignite/apache-ignite/config/default-config.xml"
+            - name: JVM_OPTS
+              value: "-Xms512m -Xmx1g -DIGNITE_QUIET=false"
+            - name: IGNITE_QUIET
+              value: "false"
+          livenessProbe:
+            tcpSocket:
+              port: 10800
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            timeoutSeconds: 5
+          readinessProbe:
+            tcpSocket:
+              port: 10800
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          volumeMounts:
+            - name: ignite-data
+              mountPath: /opt/ignite/work
+          resources:
+            requests:
+              cpu: 300m
+              memory: 512Mi
+            limits:
+              cpu: 1000m
+              memory: 2Gi
+      volumes:
+        - name: ignite-data
+          persistentVolumeClaim:
+            claimName: ignite-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ignite-pvc
+  namespace: logoca
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: standard

@@ -1,0 +1,74 @@
+# ── Dependências ────────────────────────────────────────────────────────────
+node_modules/
+.pnp/
+.pnp.js
+__pycache__/
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.next/
+out/
+.angular/
+.nuxt/
+
+# ── Env & Secrets ───────────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+secrets.yaml
+secrets/*.yaml
+
+# ── Logs ────────────────────────────────────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ── OS ──────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
+
+# ── IDE ─────────────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.code-workspace
+*.sublime-project
+*.sublime-workspace
+
+# ── Docker ──────────────────────────────────────────────────────────────────
+.docker/
+
+# ── Postgres / Volumes ──────────────────────────────────────────────────────
+pgdata/
+postgres_data/
+
+# ── Coverage / Test ─────────────────────────────────────────────────────────
+coverage/
+.nyc_output/
+.coverage
+htmlcov/
+.pytest_cache/
+jest-coverage/
+
+# ── Turbo / Cache ───────────────────────────────────────────────────────────
+.turbo/
+.cache/
+.eslintcache
+.parcel-cache/
+
+# ── Misc ────────────────────────────────────────────────────────────────────
+tmp/
+temp/
+*.tmp
+*.bak

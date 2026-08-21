@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: logoca
+  labels:
+    app: logoca-logisticas
+    env: production
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: logoca-staging
+  labels:
+    app: logoca-logisticas
+    env: staging

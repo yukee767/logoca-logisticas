@@ -1,0 +1,98 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: logoca-ingress
+  namespace: logoca
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+spec:
+  ingressClassName: nginx
+  rules:
+    # Frontend Angular — área do cliente / usuários
+    - host: app.logoca.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-angular
+                port:
+                  number: 80
+    # Frontend Next.js — área admin / dashboard
+    - host: admin.logoca.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-next
+                port:
+                  number: 3000
+    # Host genérico para dev (todas as rotas em um único host)
+    - host: logoca.local
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-nest
+                port:
+                  number: 3000
+          - path: /fastapi
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-fastapi
+                port:
+                  number: 8000
+          - path: /rabbitmq
+            pathType: Prefix
+            backend:
+              service:
+                name: rabbitmq
+                port:
+                  number: 15672
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-angular
+                port:
+                  number: 80
+---
+# Ingress separado para APIs (opcional, útil para external-dns / cert-manager)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: logoca-api-ingress
+  namespace: logoca
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: api.logoca.local
+      http:
+        paths:
+          - path: /nest(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-nest
+                port:
+                  number: 3000
+          - path: /fastapi(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-fastapi
+                port:
+                  number: 8000

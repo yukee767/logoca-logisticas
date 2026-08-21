@@ -1,0 +1,69 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-next
+  namespace: logoca
+  labels:
+    app: frontend-next
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      name: http
+  selector:
+    app: frontend-next
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-next
+  namespace: logoca
+  labels:
+    app: frontend-next
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend-next
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: frontend-next
+    spec:
+      containers:
+        - name: frontend-next
+          image: logoca/frontend-next:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+              name: http
+          env:
+            - name: NEXT_PUBLIC_API_URL
+              value: "http://backend-nest:3000"
+            - name: NEXT_PUBLIC_FASTAPI_URL
+              value: "http://backend-fastapi:8000"
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "3000"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 150m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi

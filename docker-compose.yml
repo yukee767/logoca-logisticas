@@ -1,0 +1,303 @@
+version: "3.9"
+
+services:
+  # ──────────────────────────────────────────────────────────────
+  # INFRAESTRUTURA
+  # ──────────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: logoca-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-logoca}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-logoca123}
+      POSTGRES_DB: ${POSTGRES_DB:-logoca_db}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infra/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - logoca-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-logoca} -d ${POSTGRES_DB:-logoca_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  redis:
+    image: redis:7-alpine
+    container_name: logoca-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redis123}
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - logoca-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-redis123}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: logoca-zookeeper
+    restart: unless-stopped
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - zookeeper_data:/var/lib/zookeeper/data
+      - zookeeper_logs:/var/lib/zookeeper/log
+    networks:
+      - logoca-network
+    healthcheck:
+      test: ["CMD-SHELL", "echo ruok | nc localhost 2181 | grep imok"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: logoca-kafka
+    restart: unless-stopped
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    ports:
+      - "${KAFKA_PORT:-9092}:9092"
+      - "9101:9101"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_JMX_PORT: 9101
+      KAFKA_JMX_HOSTNAME: localhost
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    networks:
+      - logoca-network
+    healthcheck:
+      test: ["CMD-SHELL", "cub kafka-ready -b localhost:9092 1 20 || kafka-topics --bootstrap-server localhost:9092 --list"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: logoca-rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-logoca}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-logoca123}
+      RABBITMQ_DEFAULT_VHOST: /
+    ports:
+      - "${RABBITMQ_PORT:-5672}:5672"
+      - "${RABBITMQ_MANAGEMENT_PORT:-15672}:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - logoca-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  ignite:
+    image: apacheignite/ignite:2.15.0
+    container_name: logoca-ignite
+    restart: unless-stopped
+    environment:
+      OPTION_LIBS: ignite-kubernetes,ignite-rest-http
+      CONFIG_URI: file:///opt/ignite/apache-ignite/config/default-config.xml
+      JVM_OPTS: "-Xms512m -Xmx1g -DIGNITE_QUIET=false"
+    ports:
+      - "${IGNITE_PORT:-10800}:10800"
+      - "11211:11211"
+      - "47100:47100"
+      - "47500:47500"
+      - "8080:8080"
+    volumes:
+      - ignite_data:/opt/ignite/work
+    networks:
+      - logoca-network
+    healthcheck:
+      test: ["CMD-SHELL", "ss -tln | grep -q 10800 || netstat -tln | grep -q 10800 || nc -z localhost 10800"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+
+  # ──────────────────────────────────────────────────────────────
+  # BACKENDS
+  # ──────────────────────────────────────────────────────────────
+  backend-nest:
+    build:
+      context: ./backend-nest
+      dockerfile: Dockerfile
+    container_name: logoca-backend-nest
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      ignite:
+        condition: service_healthy
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      PORT: 3000
+      DATABASE_URL: postgres://${POSTGRES_USER:-logoca}:${POSTGRES_PASSWORD:-logoca123}@postgres:5432/${POSTGRES_DB:-logoca_db}
+      REDIS_URL: redis://:${REDIS_PASSWORD:-redis123}@redis:6379
+      RABBITMQ_URL: amqp://${RABBITMQ_USER:-logoca}:${RABBITMQ_PASSWORD:-logoca123}@rabbitmq:5672
+      KAFKA_BROKERS: kafka:29092
+      IGNITE_URL: ignite:10800
+      IGNITE_HOST: ignite
+      IGNITE_PORT: 10800
+      JWT_SECRET: ${JWT_SECRET:-super-secret-jwt-logoca-2024}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
+    ports:
+      - "${NEST_PORT:-3000}:3000"
+    volumes:
+      - ./backend-nest:/app
+      - /app/node_modules
+    networks:
+      - logoca-network
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/health || wget -qO- http://localhost:3000/api/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  backend-fastapi:
+    build:
+      context: ./backend-fastapi
+      dockerfile: Dockerfile
+    container_name: logoca-backend-fastapi
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      ignite:
+        condition: service_healthy
+    environment:
+      ENV: ${ENV:-development}
+      PORT: 8000
+      DATABASE_URL: postgresql://${POSTGRES_USER:-logoca}:${POSTGRES_PASSWORD:-logoca123}@postgres:5432/${POSTGRES_DB:-logoca_db}
+      REDIS_URL: redis://:${REDIS_PASSWORD:-redis123}@redis:6379/0
+      IGNITE_URL: ignite:10800
+      IGNITE_HOST: ignite
+      JWT_SECRET: ${JWT_SECRET:-super-secret-jwt-logoca-2024}
+      KAFKA_BROKERS: kafka:29092
+    ports:
+      - "${FASTAPI_PORT:-8000}:8000"
+    volumes:
+      - ./backend-fastapi:/app
+    networks:
+      - logoca-network
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\" || wget -qO- http://localhost:8000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+
+  # ──────────────────────────────────────────────────────────────
+  # FRONTENDS
+  # ──────────────────────────────────────────────────────────────
+  frontend-angular:
+    build:
+      context: ./frontend-angular
+      dockerfile: Dockerfile
+    container_name: logoca-frontend-angular
+    restart: unless-stopped
+    depends_on:
+      backend-nest:
+        condition: service_healthy
+    environment:
+      NG_API_URL: http://localhost:3000
+      NG_FASTAPI_URL: http://localhost:8000
+    ports:
+      - "${ANGULAR_PORT:-4200}:80"
+    networks:
+      - logoca-network
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:80/ || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+  frontend-next:
+    build:
+      context: ./frontend-next
+      dockerfile: Dockerfile
+    container_name: logoca-frontend-next
+    restart: unless-stopped
+    depends_on:
+      backend-nest:
+        condition: service_healthy
+      backend-fastapi:
+        condition: service_healthy
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:3000
+      NEXT_PUBLIC_FASTAPI_URL: http://localhost:8000
+      NEXT_PUBLIC_APP_URL: http://localhost:3001
+    ports:
+      - "${NEXT_PORT:-3001}:3000"
+    networks:
+      - logoca-network
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/ || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+networks:
+  logoca-network:
+    name: logoca-network
+    driver: bridge
+
+volumes:
+  postgres_data:
+    name: logoca_postgres_data
+    driver: local
+  redis_data:
+    name: logoca_redis_data
+    driver: local
+  rabbitmq_data:
+    name: logoca_rabbitmq_data
+    driver: local
+  kafka_data:
+    name: logoca_kafka_data
+    driver: local
+  zookeeper_data:
+    name: logoca_zookeeper_data
+    driver: local
+  zookeeper_logs:
+    name: logoca_zookeeper_logs
+    driver: local
+  ignite_data:
+    name: logoca_ignite_data
+    driver: local
