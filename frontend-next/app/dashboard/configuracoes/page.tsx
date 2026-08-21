@@ -347,13 +347,6 @@ export default function ConfiguracoesPage() {
         )}
       </div>
 
-      <div className="rounded-xl bg-[#0d3b66] p-4 text-white flex flex-col md:flex-row md:items-center justify-between gap-3">
-        <div>
-          <div className="font-bold">Área de Sistema corrigida ✅</div>
-          <div className="text-sm opacity-80">Relatórios e Configurações agora funcionais • Sidebar links ativos • Toast + localStorage</div>
-        </div>
-        <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-mono">X:\ • LOGOCL~1 • v1.0.0</span>
-      </div>
     </div>
   );
 }
