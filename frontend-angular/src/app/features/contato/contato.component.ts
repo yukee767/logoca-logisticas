@@ -8,26 +8,31 @@ import { ApiService } from '../../core/services/api.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-  <section class="bg-[#0f2140] text-white">
-    <div class="max-w-7xl mx-auto px-4 py-12 grid lg:grid-cols-2 gap-10 items-center">
-      <div>
-        <h1 class="font-display font-extrabold text-4xl leading-tight">Fale com a LogoCá</h1>
-        <p class="text-slate-300 mt-2 leading-relaxed">Orçamentos B2B, dúvidas de pedidos ou parcerias. Retorno em até 2h úteis.</p>
-        <div class="mt-6 space-y-3 text-sm">
-          <div class="flex items-center gap-3 bg-white/10 border border-white/15 rounded-xl px-4 py-3 backdrop-blur">
-            <div class="w-10 h-10 rounded-lg bg-[#ff6b00] flex items-center justify-center"><i class="bi bi-envelope-fill"></i></div>
-            <div><div class="text-xs opacity-70">E-mail oficial</div><a href="mailto:logocalogisticas@contato.com" class="font-bold text-white hover:underline">logocalogisticas&#64;contato.com</a></div>
-            <a href="mailto:logocalogisticas@contato.com" class="ml-auto bg-white text-[#0f2140] font-bold px-4 py-2 rounded-lg text-xs">Enviar e-mail</a>
+  <section class="bg-[#0f2140] text-white overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 py-8 sm:py-12 grid lg:grid-cols-2 gap-6 sm:gap-10 items-center">
+      <div class="min-w-0">
+        <h1 class="font-display font-extrabold text-3xl sm:text-4xl leading-tight">Fale com a LogoCá</h1>
+        <p class="text-slate-300 mt-2 leading-relaxed text-sm sm:text-base">Orçamentos B2B, dúvidas de pedidos ou parcerias. Retorno em até 2h úteis.</p>
+        <div class="mt-6 space-y-3 text-sm min-w-0">
+          <div class="flex flex-col sm:flex-row sm:items-center gap-3 bg-white/10 border border-white/15 rounded-xl p-3 sm:px-4 sm:py-3 backdrop-blur min-w-0">
+            <div class="flex items-center gap-3 min-w-0 flex-1">
+              <div class="w-10 h-10 rounded-lg bg-[#ff6b00] flex items-center justify-center shrink-0"><i class="bi bi-envelope-fill"></i></div>
+              <div class="min-w-0 flex-1">
+                <div class="text-xs opacity-70">E-mail oficial</div>
+                <a href="mailto:logocalogisticas@contato.com" class="font-bold text-white hover:underline break-all text-sm sm:text-base leading-tight">logocalogisticas&#64;contato.com</a>
+              </div>
+            </div>
+            <a href="mailto:logocalogisticas@contato.com" class="bg-white text-[#0f2140] font-bold px-4 py-2.5 sm:py-2 rounded-lg text-xs sm:text-sm text-center w-full sm:w-auto shrink-0">Enviar e-mail</a>
           </div>
-          <div class="flex gap-3">
-            <div class="flex-1 bg-white/10 border border-white/15 rounded-xl px-4 py-3"><div class="text-xs opacity-70">Telefone</div><div class="font-bold">(11) 99999-9999</div></div>
-            <div class="flex-1 bg-white/10 border border-white/15 rounded-xl px-4 py-3"><div class="text-xs opacity-70">WhatsApp</div><div class="font-bold">+55 11 99999-9999</div></div>
+          <div class="flex gap-2 sm:gap-3 min-w-0">
+            <div class="flex-1 min-w-0 bg-white/10 border border-white/15 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3"><div class="text-xs opacity-70">Telefone</div><div class="font-bold text-sm sm:text-base truncate">(11) 99999-9999</div></div>
+            <div class="flex-1 min-w-0 bg-white/10 border border-white/15 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3"><div class="text-xs opacity-70">WhatsApp</div><div class="font-bold text-sm sm:text-base truncate">+55 11 99999-9999</div></div>
           </div>
-          <div class="bg-white/10 border border-white/15 rounded-xl px-4 py-3"><div class="text-xs opacity-70">Endereço</div><div class="font-semibold">Galpões A, B e C — Guarulhos/SP • Atendemos todo Brasil</div></div>
+          <div class="bg-white/10 border border-white/15 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 min-w-0"><div class="text-xs opacity-70">Endereço</div><div class="font-semibold text-sm sm:text-base break-words leading-snug">Galpões A, B e C — Guarulhos/SP • Atendemos todo Brasil</div></div>
         </div>
       </div>
-      <div class="bg-white rounded-[1.6rem] p-2 shadow-2xl">
-        <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=900" alt="Contato LogoCá" class="rounded-[1.2rem] w-full h-[360px] object-cover">
+      <div class="bg-white rounded-[1.2rem] sm:rounded-[1.6rem] p-1.5 sm:p-2 shadow-2xl min-w-0">
+        <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=900" alt="Contato LogoCá" class="rounded-[1rem] sm:rounded-[1.2rem] w-full h-[220px] sm:h-[280px] md:h-[360px] object-cover">
       </div>
     </div>
   </section>

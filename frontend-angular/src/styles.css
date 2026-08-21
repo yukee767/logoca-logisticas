@@ -34,6 +34,11 @@ h1,h2,h3,h4,.font-display { font-family: 'Poppins', sans-serif; }
   }
 }
 
+/* Mobile helpers */
+html, body { overflow-x: hidden; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
 /* Bootstrap overrides */
 .btn { border-radius: 0.75rem; }
 .card { border-radius: 1rem; }

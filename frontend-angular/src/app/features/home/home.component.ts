@@ -64,26 +64,27 @@ Chart.register(...registerables);
   </section>
 
   <!-- SERVIÇOS -->
-  <section class="max-w-7xl mx-auto px-4 py-10 sm:py-14">
+  <section class="max-w-7xl mx-auto px-4 py-10 sm:py-14 overflow-hidden">
     <div class="text-center max-w-2xl mx-auto px-2">
       <span class="badge-logoca">NOSSOS SERVIÇOS</span>
       <h2 class="font-display font-extrabold text-2xl sm:text-3xl text-[#0f2140] mt-3">Do galpão à porta do cliente</h2>
       <p class="text-slate-500 mt-2 text-sm sm:text-base">Operação completa ou modular — você escolhe o que terceirizar com a LogoCá.</p>
+      <p class="sm:hidden text-xs text-slate-400 mt-2 flex items-center justify-center gap-1"><i class="bi bi-hand-index"></i> Deslize para ver mais <i class="bi bi-arrow-right"></i></p>
     </div>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-8 sm:mt-10">
-      <div class="card-logoca group">
+    <div class="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-6 sm:overflow-visible sm:pb-0 scrollbar-hide scroll-smooth mt-8 sm:mt-10">
+      <div class="card-logoca group min-w-[85vw] max-w-[340px] sm:min-w-0 sm:max-w-none snap-center shrink-0 sm:shrink">
         <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-[#0f2140] text-xl transition-transform duration-300 group-hover:scale-110 group-hover:bg-[#0f2140] group-hover:text-white"><i class="bi bi-truck"></i></div>
         <h3 class="font-bold text-[#0f2140] mt-4 text-base sm:text-lg">Coleta no Galpão da Empresa</h3>
         <p class="text-sm text-slate-500 mt-1">Retiramos no seu centro de distribuição com frota própria e rastreio em tempo real.</p>
         <ul class="text-sm mt-3 space-y-1.5 text-slate-600"><li class="flex items-center gap-1.5"><i class="bi bi-check-circle-fill text-emerald-500"></i> Agendamento em até 24h</li><li class="flex items-center gap-1.5"><i class="bi bi-check-circle-fill text-emerald-500"></i> Romaneio digital</li></ul>
       </div>
-      <div class="card-logoca group">
+      <div class="card-logoca group min-w-[85vw] max-w-[340px] sm:min-w-0 sm:max-w-none snap-center shrink-0 sm:shrink">
         <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center text-[#ff6b00] text-xl transition-transform duration-300 group-hover:scale-110 group-hover:bg-[#ff6b00] group-hover:text-white"><i class="bi bi-box-seam"></i></div>
         <h3 class="font-bold text-[#0f2140] mt-4 text-base sm:text-lg">Armazenagem em Nossos Galpões</h3>
         <p class="text-sm text-slate-500 mt-1">Galpões A (climatizado), B (seco) e C (pátio coberto) com WMS e segurança 24h.</p>
         <ul class="text-sm mt-3 space-y-1.5 text-slate-600"><li class="flex items-center gap-1.5"><i class="bi bi-check-circle-fill text-emerald-500"></i> Endereçamento e inventário</li><li class="flex items-center gap-1.5"><i class="bi bi-check-circle-fill text-emerald-500"></i> Picking & packing</li></ul>
       </div>
-      <div class="card-logoca group sm:col-span-2 lg:col-span-1">
+      <div class="card-logoca group min-w-[85vw] max-w-[340px] sm:min-w-0 sm:max-w-none snap-center shrink-0 sm:shrink">
         <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 text-xl transition-transform duration-300 group-hover:scale-110 group-hover:bg-emerald-600 group-hover:text-white"><i class="bi bi-globe-americas"></i></div>
         <h3 class="font-bold text-[#0f2140] mt-4 text-base sm:text-lg">Transporte & Last Mile</h3>
         <p class="text-sm text-slate-500 mt-1">Distribuição nacional com SLA 24-72h e logística reversa.</p>
