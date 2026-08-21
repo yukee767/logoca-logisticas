@@ -321,6 +321,6 @@ cd frontend-next && npm install && npm run dev
 
 ## Licença
 
-Proprietário — LogoCá Logísticas © 2026. Todos os direitos reservados.
+Proprietário — Yukee767. Todos os direitos reservados.
 
-Dúvidas? Fale com a gente em **logocalogisticas@contato.com**.
+Dúvidas sobre como o projeto foi feito? Me mande um email victorlima124tt@gmail.com ou entre em contato pelo discord yukee676.
