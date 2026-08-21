@@ -21,8 +21,8 @@ const navItems: NavItem[] = [
 ];
 
 const secondaryItems: NavItem[] = [
-  { href: "#", label: "Relatórios", icon: "bi-file-earmark-bar-graph" },
-  { href: "#", label: "Configurações", icon: "bi-gear" },
+  { href: "/dashboard/relatorios", label: "Relatórios", icon: "bi-file-earmark-bar-graph" },
+  { href: "/dashboard/configuracoes", label: "Configurações", icon: "bi-gear" },
 ];
 
 export default function Sidebar() {
@@ -112,16 +112,24 @@ export default function Sidebar() {
             Sistema
           </div>
           <nav className="space-y-1">
-            {secondaryItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-white/60 hover:bg-white/10 hover:text-white"
-              >
-                <i className={`bi ${item.icon} text-[18px]`} />
-                {item.label}
-              </a>
-            ))}
+            {secondaryItems.map((item) => {
+              const active = pathname.startsWith(item.href);
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition ${
+                    active
+                      ? "bg-white text-[#0d3b66] font-semibold shadow"
+                      : "text-white/60 hover:bg-white/10 hover:text-white"
+                  }`}
+                >
+                  <i className={`bi ${item.icon} text-[18px]`} />
+                  {item.label}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Galpão ocupação mini */}
