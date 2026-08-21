@@ -1,5 +1,36 @@
 {
-  "dependencies": {
-    "rxjs": "^7.8.1"
+  "name": "logoca-logisticas-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LogoCá Logísticas — Monorepo completo: Angular + Next.js + Nest.js + FastAPI + Django (analytics) + PostgreSQL + Redis + RabbitMQ + Kafka + Ignite + Kubernetes",
+  "workspaces": [
+    "frontend-angular",
+    "frontend-next",
+    "backend-nest",
+    "backend-fastapi",
+    "backend-django"
+  ],
+  "scripts": {
+    "dev:nest": "npm --workspace backend-nest run start:dev",
+    "dev:fastapi": "pip install -r backend-fastapi/requirements.txt && uvicorn app.main:app --reload --port 8000 --app-dir backend-fastapi",
+    "dev:angular": "npm --workspace frontend-angular run start",
+    "dev:next": "npm --workspace frontend-next run dev",
+    "dev:django": "python backend-django/manage.py runserver 8001",
+    "build:nest": "npm --workspace backend-nest run build",
+    "build:next": "npm --workspace frontend-next run build",
+    "build:angular": "npm --workspace frontend-angular run build",
+    "docker:up": "docker compose up -d --build",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f",
+    "k8s:apply": "kubectl apply -f infra/kubernetes/namespace.yaml && kubectl apply -f infra/kubernetes/configmap.yaml && kubectl apply -f infra/kubernetes/secrets.yaml && kubectl apply -f infra/kubernetes/postgres-statefulset.yaml && kubectl apply -f infra/kubernetes/redis-deployment.yaml && kubectl apply -f infra/kubernetes/rabbitmq-deployment.yaml && kubectl apply -f infra/kubernetes/kafka-deployment.yaml && kubectl apply -f infra/kubernetes/ignite-deployment.yaml && kubectl apply -f infra/kubernetes/nest-deployment.yaml && kubectl apply -f infra/kubernetes/fastapi-deployment.yaml && kubectl apply -f infra/kubernetes/angular-deployment.yaml && kubectl apply -f infra/kubernetes/next-deployment.yaml && kubectl apply -f infra/kubernetes/ingress.yaml",
+    "lint": "echo 'use workspace lint'",
+    "test": "echo 'use workspace tests'"
+  },
+  "keywords": ["logistica", "ecommerce", "B2B", "B2C", "angular", "next.js", "nestjs", "fastapi", "django", "postgresql", "redis", "rabbitmq", "kafka", "ignite", "kubernetes"],
+  "author": "LogoCá Logísticas <logocalogisticas@contato.com>",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20",
+    "python": ">=3.11"
   }
 }

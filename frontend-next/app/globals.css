@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+/* Leaflet CSS - imported via CDN fallback in MapView, but also local */
+@import "leaflet/dist/leaflet.css";
+
+:root {
+  --logoca-primary: #0d3b66;
+  --logoca-accent: #2a9d8f;
+  --logoca-bg: #f4f7fb;
+}
+
+html,
+body {
+  height: 100%;
+  background: var(--logoca-bg);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+/* Sidebar custom scrollbar */
+.sidebar-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+}
+
+/* Recharts tooltip */
+.recharts-tooltip-wrapper {
+  z-index: 50 !important;
+}
+
+/* Bootstrap override for Tailwind compat */
+.btn-primary {
+  background-color: var(--logoca-primary) !important;
+  border-color: var(--logoca-primary) !important;
+}
+
+/* Map placeholder pulse */
+@keyframes pulse-map {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+.animate-pulse-map {
+  animation: pulse-map 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
