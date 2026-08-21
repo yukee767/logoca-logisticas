@@ -1,10 +1,12 @@
-# LogoCá Logísticas
+# LogoCá Logísticas — Portfólio
 
-Plataforma de logística e distribuição para bebidas (Brahma, Pepsi e parceiros) com gestão de estoque, frota, rotas, pedidos B2B/CONSUMER e rastreamento GPS em tempo real.
- 
-> **Contato:** [logocalogisticas@contato.com](mailto:logocalogisticas@contato.com) (FICCIONAL)
+[![Home Live](https://img.shields.io/badge/Home-logoca--home.pages.dev-0d3b66?style=for-the-badge)](https://logoca-home.pages.dev) [![Dashboard Live](https://img.shields.io/badge/Dashboard-logoca--dashboard.pages.dev-f4a261?style=for-the-badge)](https://logoca-dashboard.pages.dev) [![Stack](https://img.shields.io/badge/Stack-Angular%20%7C%20Next.js%20%7C%20NestJS%20%7C%20FastAPI-blue)](#stack) [![Cloudflare Pages](https://img.shields.io/badge/Deploy-Cloudflare%20Pages-F38020)](https://logoca-home.pages.dev)
 
-LEMBRETE: O SITE É APENAS PARA PORTIFÓLIO, NÃO CONDIZ COM NENHUM CNPJ REGISTRADO NO BRASIL. QUALQUER SEMELHANÇA É MERA COINCIDÊNCIA.
+> **Portfólio** — Plataforma de logística e distribuição para bebidas (Brahma, Pepsi e parceiros) com gestão de estoque, frota, rotas, pedidos B2B/CONSUMER e rastreamento GPS em tempo real. **Projeto fictício para portfólio, sem CNPJ real.**
+> **Contato fictício:** [logocalogisticas@contato.com](mailto:logocalogisticas@contato.com) • **Demo Home:** https://logoca-home.pages.dev • **Demo Dashboard:** https://logoca-dashboard.pages.dev/dashboard
+
+**Repositório público como portfólio** — https://github.com/yukee767/logoca-logisticas
+
 ---
 
 ## Índice
